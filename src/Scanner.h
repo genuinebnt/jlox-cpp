@@ -27,7 +27,10 @@ private:
   auto scanToken() -> void;
   auto advance() -> char;
   auto addToken(TokenType type) -> void;
+  auto addToken(TokenType type, int start, int current) -> void;
   auto match(char expected) -> bool;
+  auto peek() -> char;
+  auto string() -> void;
 };
 
 #endif

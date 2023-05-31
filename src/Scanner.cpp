@@ -71,9 +71,47 @@ auto Scanner::scanToken() -> void {
   case '>':
     addToken(match('=') ? TokenType::GREATER_EQUAL : TokenType::GREATER);
     break;
+  case '/':
+    if (match('/')) {
+      while (peek() != '\n' && !isAtEnd()) {
+        advance();
+      }
+    } else {
+      addToken(TokenType::SLASH);
+    }
+    break;
+  case ' ':
+    break;
+  case '\t':
+    break;
+  case '\r':
+    break;
+  case '\n':
+    _line += 1;
+    break;
+  case '"':
+    string();
+    break;
   default:
     Logger::error(_line, "Unexpected token");
   }
+}
+
+auto Scanner::string() -> void {
+  while (peek() != '"' && !isAtEnd()) {
+    if (peek() == '\n') {
+      _line += 1;
+    }
+    advance();
+  }
+
+  if (isAtEnd()) {
+    Logger::error(_line, "Unterminated string");
+    return;
+  }
+
+  advance();
+  addToken(TokenType::STRING, _start + 1, _current - 1);
 }
 
 auto Scanner::match(char expected) -> bool {
@@ -89,10 +127,24 @@ auto Scanner::match(char expected) -> bool {
   return true;
 }
 
+auto Scanner::peek() -> char {
+  if (isAtEnd()) {
+    return '\0';
+  }
+  return _source[_current];
+}
+
 auto Scanner::advance() -> char { return _source.at(_current++); }
 
 auto Scanner::addToken(TokenType type) -> void {
   std::string text = _source.substr(_start, _current - _start);
+
+  auto token = std::make_unique<Token>(type, text, _line);
+  _tokens.push_back(std::move(token));
+}
+
+auto Scanner::addToken(TokenType type, int start, int current) -> void {
+  std::string text = _source.substr(start, current - start);
 
   auto token = std::make_unique<Token>(type, text, _line);
   _tokens.push_back(std::move(token));
