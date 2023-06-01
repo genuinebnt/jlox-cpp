@@ -96,9 +96,34 @@ auto Scanner::scanToken() -> void {
   default:
     if (isdigit(c)) {
       number();
+    } else if (isAlpha(c)) {
+      identifier();
     } else {
       Logger::error(_line, "Unexpected token");
     }
+  }
+}
+
+auto Scanner::isAlpha(char c) -> bool {
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+}
+
+auto Scanner::isAlphaNumeric(char c) -> bool {
+  return isAlpha(c) || isdigit(c);
+}
+
+auto Scanner::identifier() -> void {
+  while (isAlphaNumeric(peek())) {
+    advance();
+  }
+
+  std::string text = _source.substr(_start, _current - _start);
+  
+  auto type = _keywords.find(text);
+  if (type != _keywords.end()) {
+    addToken(type->second);
+  } else {
+    addToken(TokenType::IDENTIFIER);
   }
 }
 

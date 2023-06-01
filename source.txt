@@ -5,3 +5,9 @@
 "this is a string"
 //comment
 !!1234.5678+===
+_isnotakeyworkbutitworks
+&thisshouldntwork
+and
+class
+if
+while
