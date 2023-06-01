@@ -1,3 +1,4 @@
+#include <cctype>
 #include <iostream>
 #include <memory>
 
@@ -93,8 +94,45 @@ auto Scanner::scanToken() -> void {
     string();
     break;
   default:
-    Logger::error(_line, "Unexpected token");
+    if (isdigit(c)) {
+      number();
+    } else {
+      Logger::error(_line, "Unexpected token");
+    }
   }
+}
+
+auto Scanner::number() -> void {
+  while (isdigit(peek())) {
+    advance();
+  }
+
+  if (peek() == '.' && isdigit(peeknext())) {
+    advance();
+  }
+
+  while (isdigit(peek())) {
+    advance();
+  }
+
+  addToken(TokenType::NUMBER);
+}
+
+auto Scanner::advance() -> char { return _source.at(_current++); }
+
+auto Scanner::peek() -> char {
+  if (isAtEnd()) {
+    return '\0';
+  }
+  return _source[_current];
+}
+
+auto Scanner::peeknext() -> char {
+  if (_current + 1 >= static_cast<int>(_source.size())) {
+    return '\0';
+  }
+
+  return _source[_current + 1];
 }
 
 auto Scanner::string() -> void {
@@ -126,15 +164,6 @@ auto Scanner::match(char expected) -> bool {
   _current += 1;
   return true;
 }
-
-auto Scanner::peek() -> char {
-  if (isAtEnd()) {
-    return '\0';
-  }
-  return _source[_current];
-}
-
-auto Scanner::advance() -> char { return _source.at(_current++); }
 
 auto Scanner::addToken(TokenType type) -> void {
   std::string text = _source.substr(_start, _current - _start);

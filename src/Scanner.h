@@ -31,6 +31,8 @@ private:
   auto match(char expected) -> bool;
   auto peek() -> char;
   auto string() -> void;
+  auto number() -> void;
+  auto peeknext() -> char;
 };
 
 #endif
