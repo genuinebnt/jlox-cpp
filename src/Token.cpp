@@ -1,5 +1,6 @@
 #include <map>
 #include <string>
+#include <vector>
 
 #include "Token.h"
 
@@ -101,4 +102,15 @@ auto Token::TokenTypeString(TokenType type) const -> std::string {
 
 auto Token::toString() const -> std::string {
   return TokenTypeString(_type) + " " + _lexeme + " " + std::to_string(_line);
+}
+
+auto Token::getType() const -> TokenType { return _type; }
+
+auto Token::getTokenType(std::vector<std::unique_ptr<Token>> tokens) const
+    -> std::vector<TokenType> {
+  std::vector<TokenType> types;
+  for (const auto &token : tokens) {
+    types.push_back(token->getType());
+  }
+  return types;
 }

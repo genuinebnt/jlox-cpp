@@ -2,7 +2,9 @@
 #define TOKEN_H
 
 #include <map>
+#include <memory>
 #include <string>
+#include <vector>
 
 #pragma once
 
@@ -64,6 +66,9 @@ public:
 
   auto TokenTypeString(TokenType type) const -> std::string;
   auto toString() const -> std::string;
+  auto getTokenType(std::vector<std::unique_ptr<Token>> tokens) const
+      -> std::vector<TokenType>;
+  auto getType() const -> TokenType;
 
 private:
   TokenType _type;

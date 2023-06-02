@@ -118,7 +118,7 @@ auto Scanner::identifier() -> void {
   }
 
   std::string text = _source.substr(_start, _current - _start);
-  
+
   auto type = _keywords.find(text);
   if (type != _keywords.end()) {
     addToken(type->second);
