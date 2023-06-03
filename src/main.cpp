@@ -1,13 +1,9 @@
-#include <gtest/gtest.h>
 #include <iostream>
 #include <memory>
 
 #include "Lox.h"
 
 auto main(int argc, char *argv[]) -> int {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-
   if (argc > 2) {
     std::cout << "Usage: jlox-cpp [script]" << std::endl;
     return 64;

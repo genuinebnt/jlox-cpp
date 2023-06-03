@@ -11,17 +11,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #locate conan generated config files from build folder
 list(PREPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 
-#find the gtest package
-find_package(GTest REQUIRED)
-#include all headers and source files
-include_directories(${GTEST_INCLUDE_DIRS})
+#include src directory
+add_subdirectory(src)
+
+enable_testing()
 
 #include test directory
-include_directories(tests)
-
-#link all source files to project
-file(GLOB_RECURSE SOURCES src/*.cpp src/*.h)
-
-add_executable(jlox-cpp ${SOURCES})
-#link gtest to main project
-target_link_libraries(jlox-cpp GTest::GTest GTest::Main)
+add_subdirectory(tests)
