@@ -5,12 +5,13 @@ Logger::Logger() {}
 
 Logger::~Logger() {}
 
-auto Logger::error(int line, std::string message) -> void {
-  report(line, "", message);
+auto Logger::error(int line, std::string message, char c) -> void {
+  report(line, "", message, c);
 }
 
-auto Logger::report(int line, std::string where, std::string message) -> void {
+auto Logger::report(int line, std::string where, std::string message, char c)
+    -> void {
   std::cout << "[line " << line << "] Error: " << where << ": " << message
-            << std::endl;
+            << " " << c << std::endl;
   hadError = true;
 }

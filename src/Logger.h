@@ -9,13 +9,14 @@ class Logger {
 public:
   Logger();
   ~Logger();
-  static auto error(int line, std::string message) -> void;
+  static auto error(int line, std::string message, char c) -> void;
   inline static bool hadError = false;
 
 private:
   std::vector<std::string> errorMessages;
 
-  static auto report(int line, std::string where, std::string message) -> void;
+  static auto report(int line, std::string where, std::string message, char c)
+      -> void;
 };
 
 #endif

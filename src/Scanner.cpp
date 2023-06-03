@@ -77,6 +77,9 @@ auto Scanner::scanToken() -> void {
       while (peek() != '\n' && !isAtEnd()) {
         advance();
       }
+    } else if (match('*')) {
+      multilineComment();
+      break;
     } else {
       addToken(TokenType::SLASH);
     }
@@ -99,7 +102,7 @@ auto Scanner::scanToken() -> void {
     } else if (isAlpha(c)) {
       identifier();
     } else {
-      Logger::error(_line, "Unexpected token");
+      Logger::error(_line, "Unexpected token", c);
     }
   }
 }
@@ -169,12 +172,26 @@ auto Scanner::string() -> void {
   }
 
   if (isAtEnd()) {
-    Logger::error(_line, "Unterminated string");
+    Logger::error(_line, "Unterminated string", ' ');
     return;
   }
 
   advance();
   addToken(TokenType::STRING, _start + 1, _current - 1);
+}
+
+auto Scanner::multilineComment() -> void {
+  while (peek() != '*' && peeknext() != '/') {
+    if (isAtEnd()) {
+      Logger::error(_line, "Unterminated string", ' ');
+      return;
+    }
+    if (peek() == '\n') {
+      _line += 1;
+    }
+    advance();
+  }
+  advance();
 }
 
 auto Scanner::match(char expected) -> bool {
