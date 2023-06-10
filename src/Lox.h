@@ -1,6 +1,3 @@
-#ifndef LOX_H
-#define LOX_H
-
 #pragma once
 
 #include <memory>
@@ -17,7 +14,5 @@ public:
   auto runPrompt() -> void;
 
 private:
-  auto run(const std::string contents) -> void;
+  static auto run(const std::string& contents) -> void;
 };
-
-#endif

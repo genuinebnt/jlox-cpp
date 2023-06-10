@@ -1,14 +1,14 @@
 #include <cctype>
-#include <iostream>
 #include <memory>
+#include <utility>
 
 #include "Lox.h"
 #include "Scanner.h"
 
-Scanner::Scanner(const std::string contents)
-    : _source(contents), _start(0), _current(0), _line(1) {}
+Scanner::Scanner(std::string  contents)
+    : _source(std::move(contents)), _start(0), _current(0), _line(1) {}
 
-Scanner::~Scanner() {}
+Scanner::~Scanner() = default;
 
 auto Scanner::isAtEnd() -> bool {
   return _current >= static_cast<int>(_source.length());
@@ -135,7 +135,7 @@ auto Scanner::number() -> void {
     advance();
   }
 
-  if (peek() == '.' && isdigit(peeknext())) {
+  if (peek() == '.' && isdigit(peekNext())) {
     advance();
   }
 
@@ -155,7 +155,7 @@ auto Scanner::peek() -> char {
   return _source[_current];
 }
 
-auto Scanner::peeknext() -> char {
+auto Scanner::peekNext() -> char {
   if (_current + 1 >= static_cast<int>(_source.size())) {
     return '\0';
   }
@@ -181,7 +181,7 @@ auto Scanner::string() -> void {
 }
 
 auto Scanner::multilineComment() -> void {
-  while (peek() != '*' && peeknext() != '/') {
+  while (peek() != '*' && peekNext() != '/') {
     if (isAtEnd()) {
       Logger::error(_line, "Unterminated string", ' ');
       return;

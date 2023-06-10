@@ -1,5 +1,4 @@
-#ifndef SCANNER_H
-#define SCANNER_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -7,11 +6,9 @@
 
 #include "Token.h"
 
-#pragma once
-
 class Scanner {
 public:
-  Scanner(const std::string contents);
+  explicit Scanner(std::string  contents);
   ~Scanner();
 
   auto scanTokens() -> std::vector<std::unique_ptr<Token>>;
@@ -33,9 +30,9 @@ private:
   auto string() -> void;
   auto multilineComment() -> void;
   auto number() -> void;
-  auto peeknext() -> char;
-  auto isAlpha(char c) -> bool;
-  auto isAlphaNumeric(char c) -> bool;
+  auto peekNext() -> char;
+  static auto isAlpha(char c) -> bool;
+  static auto isAlphaNumeric(char c) -> bool;
   auto identifier() -> void;
 
   inline static const std::map<std::string, TokenType> _keywords = {
@@ -49,5 +46,3 @@ private:
       {"var", TokenType::VAR},       {"while", TokenType::WHILE},
   };
 };
-
-#endif

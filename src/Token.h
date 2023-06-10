@@ -1,12 +1,9 @@
-#ifndef TOKEN_H
-#define TOKEN_H
+#pragma once
 
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
-
-#pragma once
 
 enum TokenType {
   // Single-character tokens.
@@ -64,16 +61,14 @@ public:
   Token(TokenType type, char lexeme, int line);
   ~Token();
 
-  auto TokenTypeString(TokenType type) const -> std::string;
-  auto toString() const -> std::string;
-  auto getTokenType(std::vector<std::unique_ptr<Token>> tokens) const
+  static auto TokenTypeString(TokenType type) -> std::string;
+  [[nodiscard]] auto toString() const -> std::string;
+  static auto getTokenType(const std::vector<std::unique_ptr<Token>>& tokens)
       -> std::vector<TokenType>;
-  auto getType() const -> TokenType;
+  [[nodiscard]] auto getType() const -> TokenType;
 
 private:
   TokenType _type;
   std::string _lexeme;
   int _line;
 };
-
-#endif

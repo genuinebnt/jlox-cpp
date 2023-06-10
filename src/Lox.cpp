@@ -2,14 +2,13 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
-#include <vector>
 
 #include "Lox.h"
 #include "Scanner.h"
 
-Lox::Lox() {}
+Lox::Lox() = default;
 
-Lox::~Lox() {}
+Lox::~Lox() = default;
 
 auto Lox::runFile(const std::string &filepath) -> void {
   std::ifstream input_file(filepath);
@@ -28,7 +27,7 @@ auto Lox::runFile(const std::string &filepath) -> void {
   }
 }
 
-auto Lox::run(const std::string contents) -> void {
+auto Lox::run(const std::string& contents) -> void {
   auto scanner(std::make_unique<Scanner>(contents));
   auto tokens = scanner->scanTokens();
 

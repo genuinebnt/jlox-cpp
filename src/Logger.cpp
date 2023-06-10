@@ -1,15 +1,16 @@
 #include "Logger.h"
 #include <iostream>
+#include <utility>
 
-Logger::Logger() {}
+Logger::Logger() = default;
 
-Logger::~Logger() {}
+Logger::~Logger() = default;
 
-auto Logger::error(int line, std::string message, char c) -> void {
+auto Logger::error(int line, const std::string& message, char c) -> void {
   report(line, "", message, c);
 }
 
-auto Logger::report(int line, std::string where, std::string message, char c)
+auto Logger::report(int line, const std::string& where, const std::string& message, char c)
     -> void {
   std::cout << "[line " << line << "] Error: " << where << ": " << message
             << " " << c << std::endl;

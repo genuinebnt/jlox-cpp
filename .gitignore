@@ -4,3 +4,5 @@ build
 venv
 CMakeUserPresets.json
 Testing
+.PVS-Studio
+.idea

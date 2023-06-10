@@ -1,19 +1,19 @@
-#include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Token.h"
 
 Token::Token(TokenType type, std::string lexeme, int line)
-    : _type(type), _lexeme(lexeme), _line(line) {}
+    : _type(type), _lexeme(std::move(lexeme)), _line(line) {}
 
 Token::Token(TokenType type, char lexeme, int line) : _type(type), _line(line) {
   _lexeme = std::string(1, lexeme);
 }
 
-Token::~Token() {}
+Token::~Token() = default;
 
-auto Token::TokenTypeString(TokenType type) const -> std::string {
+auto Token::TokenTypeString(TokenType type) -> std::string {
   switch (type) {
   case TokenType::LEFT_PAREN:
     return "LEFT_PAREN";
@@ -106,7 +106,7 @@ auto Token::toString() const -> std::string {
 
 auto Token::getType() const -> TokenType { return _type; }
 
-auto Token::getTokenType(std::vector<std::unique_ptr<Token>> tokens) const
+auto Token::getTokenType(const std::vector<std::unique_ptr<Token>>& tokens)
     -> std::vector<TokenType> {
   std::vector<TokenType> types;
   for (const auto &token : tokens) {
