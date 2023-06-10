@@ -23,8 +23,12 @@ TEST(ScannerTest, Scan) {
   auto tokens = scanner->scanTokens();
 
   std::vector<TokenType> expectedTokens = {
-      TokenType::LEFT_PAREN,
-      TokenType::LEFT_PAREN,
+      TokenType::LEFT_PAREN,  TokenType::RIGHT_PAREN,   TokenType::LEFT_BRACE,
+      TokenType::RIGHT_BRACE, TokenType::COMMA,         TokenType::DOT,
+      TokenType::MINUS,       TokenType::PLUS,          TokenType::SEMICOLON,
+      TokenType::STAR,        TokenType::EQUAL_EQUAL,   TokenType::BANG_EQUAL,
+      TokenType::LESS_EQUAL,  TokenType::GREATER_EQUAL, TokenType::BANG,
+      TokenType::BANG,        TokenType::NUMBER,        TokenType::IDENTIFIER,
   };
 
   for (const auto &token : tokens) {
@@ -34,7 +38,7 @@ TEST(ScannerTest, Scan) {
   EXPECT_EQ(tokens.size(), expectedTokens.size());
 
   for (size_t i = 0; i < tokens.size(); i++) {
-    // EXPECT_EQ(tokens[i]->getType(), expectedTokens[i]);
+    EXPECT_EQ(tokens[i]->getType(), expectedTokens[i]);
   }
 }
 
